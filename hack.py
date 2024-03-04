@@ -20,6 +20,8 @@ class Hacker:
             json.dump(verdict, file, indent=2)
 
     def try_hack(self, problem: Problem, submission: Submission):
+        logging.info(f"Trying to hack submission {submission.submission_id} ...")
+        
         timeout = self.metadata["timeout"]
         stressor = stress.Stressor(problem, submission, timeout)
         stressor.prepare()
@@ -29,7 +31,10 @@ class Hacker:
     def run(self):
         for submission in self.hackable_submissions:
             submission = Submission(fetch.fetch_submission(submission))
-            problem = self.problem_mapper[submission.problem]
+            try:
+                problem = self.problem_mapper[submission.problem]
+            except:
+                continue
             submission.set_limits(problem.time_limit, problem.memory_limit)
             submission.prepare()
             self.try_hack(problem, submission)

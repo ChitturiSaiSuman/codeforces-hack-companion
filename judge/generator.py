@@ -21,7 +21,7 @@ class Generator(ABC):
     def print(self, *args, **kwargs):
         print(*args, **kwargs, file=self.buffer)
 
-    def __clear(self):
+    def clear(self):
         self.buffer.seek(0)
         self.buffer.truncate(0)
 
@@ -30,7 +30,7 @@ class Generator(ABC):
         contents = list(map(lambda x: x.strip(), contents))
         return contents[::-1]
 
-    def __sanitize(self):
+    def sanitize(self):
         self.stdin = self.__process(self.stdin)
         self.stdout = self.__process(self.stdout)
         self.stdexpout = self.__process(self.stdexpout)
@@ -48,25 +48,28 @@ class AlphaGenerator(Generator):
         """
         # ################################################################
 
-        T = random.randint(1, 1000)
+        T = random.randint(1, 500)
         self.print(T)
 
         for t in range(T):
-            N = random.randint(1, 10**9)
+            N = random.randint(4, 100)
             self.print(N)
+            arr = [random.randint(-10**6, 10**6) for i in range(N)]
+            self.print(*arr)
+
 
         # ################################################################
         """
         Generator ends
         """
         self.stdin = self.buffer.getvalue()
-        self.__clear()
+        self.clear()
         return self.stdin
 
     def validate(self, expected_output: str, defender_output: str):
         self.stdexpout = expected_output
         self.stdout = defender_output
-        self.__sanitize()
+        self.sanitize()
 
         def read(file: list) -> str:
             return file.pop()
@@ -91,7 +94,7 @@ class BetaGenerator(Generator):
         """
         # ################################################################
 
-        T = random.randint(1, 1000)
+        T = random.randint(1, 10**4)
         self.print(T)
 
         for t in range(T):
@@ -103,13 +106,13 @@ class BetaGenerator(Generator):
         Generator ends
         """
         self.stdin = self.buffer.getvalue()
-        self.__clear()
+        self.clear()
         return self.stdin
 
     def validate(self, expected_output: str, defender_output: str):
         self.stdexpout = expected_output
         self.stdout = defender_output
-        self.__sanitize()
+        self.sanitize()
 
         def read(file: list) -> str:
             return file.pop()
@@ -146,13 +149,13 @@ class GammaGenerator(Generator):
         Generator ends
         """
         self.stdin = self.buffer.getvalue()
-        self.__clear()
+        self.clear()
         return self.stdin
 
     def validate(self, expected_output: str, defender_output: str):
         self.stdexpout = expected_output
         self.stdout = defender_output
-        self.__sanitize()
+        self.sanitize()
 
         def read(file: list) -> str:
             return file.pop()
@@ -189,13 +192,13 @@ class DeltaGenerator(Generator):
         Generator ends
         """
         self.stdin = self.buffer.getvalue()
-        self.__clear()
+        self.clear()
         return self.stdin
 
     def validate(self, expected_output: str, defender_output: str):
         self.stdexpout = expected_output
         self.stdout = defender_output
-        self.__sanitize()
+        self.sanitize()
 
         def read(file: list) -> str:
             return file.pop()
@@ -232,13 +235,13 @@ class EpsilonGenerator(Generator):
         Generator ends
         """
         self.stdin = self.buffer.getvalue()
-        self.__clear()
+        self.clear()
         return self.stdin
 
     def validate(self, expected_output: str, defender_output: str):
         self.stdexpout = expected_output
         self.stdout = defender_output
-        self.__sanitize()
+        self.sanitize()
 
         def read(file: list) -> str:
             return file.pop()
@@ -275,13 +278,13 @@ class ZetaGenerator(Generator):
         Generator ends
         """
         self.stdin = self.buffer.getvalue()
-        self.__clear()
+        self.clear()
         return self.stdin
 
     def validate(self, expected_output: str, defender_output: str):
         self.stdexpout = expected_output
         self.stdout = defender_output
-        self.__sanitize()
+        self.sanitize()
 
         def read(file: list) -> str:
             return file.pop()
@@ -318,13 +321,13 @@ class EtaGenerator(Generator):
         Generator ends
         """
         self.stdin = self.buffer.getvalue()
-        self.__clear()
+        self.clear()
         return self.stdin
 
     def validate(self, expected_output: str, defender_output: str):
         self.stdexpout = expected_output
         self.stdout = defender_output
-        self.__sanitize()
+        self.sanitize()
 
         def read(file: list) -> str:
             return file.pop()
@@ -361,13 +364,13 @@ class ThetaGenerator(Generator):
         Generator ends
         """
         self.stdin = self.buffer.getvalue()
-        self.__clear()
+        self.clear()
         return self.stdin
 
     def validate(self, expected_output: str, defender_output: str):
         self.stdexpout = expected_output
         self.stdout = defender_output
-        self.__sanitize()
+        self.sanitize()
 
         def read(file: list) -> str:
             return file.pop()
@@ -404,13 +407,13 @@ class LambdaGenerator(Generator):
         Generator ends
         """
         self.stdin = self.buffer.getvalue()
-        self.__clear()
+        self.clear()
         return self.stdin
 
     def validate(self, expected_output: str, defender_output: str):
         self.stdexpout = expected_output
         self.stdout = defender_output
-        self.__sanitize()
+        self.sanitize()
 
         def read(file: list) -> str:
             return file.pop()
@@ -447,13 +450,13 @@ class SigmaGenerator(Generator):
         Generator ends
         """
         self.stdin = self.buffer.getvalue()
-        self.__clear()
+        self.clear()
         return self.stdin
 
     def validate(self, expected_output: str, defender_output: str):
         self.stdexpout = expected_output
         self.stdout = defender_output
-        self.__sanitize()
+        self.sanitize()
 
         def read(file: list) -> str:
             return file.pop()

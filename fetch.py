@@ -1,11 +1,15 @@
 import json
 import logging
+import time
 
 import bs4
 import requests
 
-import entities
+import UTIL
 from config import Constants
+
+last_time = time.time()
+minimum_gap = 5
 
 
 def fetch_all_hackable_submissions_using_api(contest_id: str) -> list:
@@ -32,6 +36,19 @@ def fetch_all_hackable_submissions_using_api(contest_id: str) -> list:
         all_submissions,
     )
 
+    metadata = UTIL.get_metadata()
+    allowed_problems = [problem['code'] for problem in metadata['problems']]
+
+    hackable_submissions = filter(
+        lambda submission: submission["problem"]["index"] in allowed_problems,
+        hackable_submissions
+    )
+
+    hackable_submissions = filter(
+        lambda submission: submission['verdict'] == 'OK',
+        hackable_submissions
+    )
+
     hackable_submissions = list(hackable_submissions)
 
     response_file = f'{contest_id}_api_resp.json'
@@ -42,6 +59,13 @@ def fetch_all_hackable_submissions_using_api(contest_id: str) -> list:
 
 
 def fetch_submission(submission: dict) -> dict:
+    global last_time, minimum_gap
+    while time.time() - last_time < minimum_gap:
+        logging.info('Sleeping for 1 second')
+        time.sleep(1)
+
+    last_time = time.time()
+
     submission_id = submission["id"]
     contest_id = submission["contestId"]
     url = f"https://codeforces.com/contest/{contest_id}/submission/{submission_id}"
