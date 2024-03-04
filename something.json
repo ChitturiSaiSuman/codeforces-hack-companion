@@ -1,0 +1,38 @@
+{
+    "id": 249587873,
+    "contestId": 1934,
+    "creationTimeSeconds": 1709554810,
+    "relativeTimeSeconds": 2147483647,
+    "problem": {
+        "contestId": 1934,
+        "index": "C",
+        "name": "Find a Mine",
+        "type": "PROGRAMMING",
+        "points": 1500.0,
+        "tags": [
+            "binary search",
+            "constructive algorithms",
+            "geometry",
+            "greedy",
+            "interactive",
+            "math"
+        ]
+    },
+    "author": {
+        "contestId": 1934,
+        "members": [
+            {
+                "handle": "imsTusker"
+            }
+        ],
+        "participantType": "PRACTICE",
+        "ghost": false,
+        "startTimeSeconds": 1709303700
+    },
+    "programmingLanguage": "GNU C++20 (64)",
+    "verdict": "WRONG_ANSWER",
+    "testset": "TESTS",
+    "passedTestCount": 1,
+    "timeConsumedMillis": 0,
+    "memoryConsumedBytes": 0
+}

@@ -1,0 +1,54 @@
+{
+    "contest": "1934",
+    "timeout": 30,
+    "problems": [
+        {
+            "code": "A",
+            "name": "Too Min Too Max",
+            "time_limit": "1",
+            "memory_limit": "256",
+            "generator": "AlphaGenerator",
+            "reference_submission": "https://codeforces.com/contest/1934/submission/249099906"
+        },
+        {
+            "code": "B",
+            "name": "Yet Another Coin Problem",
+            "time_limit": "1",
+            "memory_limit": "256",
+            "generator": "BetaGenerator",
+            "reference_submission": "https://codeforces.com/contest/1934/submission/249101857"
+        },
+        {
+            "code": "C",
+            "name": "Find a Mine",
+            "time_limit": "2",
+            "memory_limit": "256",
+            "generator": "GammaGenerator",
+            "reference_submission": "https://codeforces.com/contest/1934/submission/249118410"
+        },
+        {
+            "code": "D1",
+            "name": "XOR Break --- Solo Version",
+            "time_limit": "2",
+            "memory_limit": "256",
+            "generator": "DeltaGenerator",
+            "reference_submission": "https://codeforces.com/contest/1934/submission/249127468"
+        },
+        {
+            "code": "D2",
+            "name": "XOR Break --- Game Version",
+            "time_limit": "3",
+            "memory_limit": "256",
+            "generator": "EpsilonGenerator",
+            "reference_submission": "https://codeforces.com/contest/1934/submission/249123948"
+        },
+        {
+            "code": "E",
+            "name": "Weird LCM Operations",
+            "time_limit": "2",
+            "memory_limit": "256",
+            "generator": "ZetaGenerator",
+            "reference_submission": "https://codeforces.com/contest/1934/submission/249141801"
+        }
+    ]
+}

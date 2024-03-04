@@ -1,0 +1,70 @@
+{
+    "ALLOWED_PARTIES": [
+        "CONTESTANT",
+        "OUT_OF_COMPETITION",
+        "VIRTUAL"
+    ],
+    "ALL_PARTIES": [
+        "CONTESTANT",
+        "OUT_OF_COMPETITION",
+        "PRACTICE",
+        "VIRTUAL"
+    ],
+    "ALLOWED_LANGUAGES": [
+        {
+            "LANGUAGE": "GNU C11",
+            "MAPPING": "C",
+            "MULTIPLIER": 1
+        },
+        {
+            "LANGUAGE": "Clang++20 Diagnostics",
+            "MAPPING": "CPP",
+            "MULTIPLIER": 1
+        },
+        {
+            "LANGUAGE": "Clang++17 Diagnostics",
+            "MAPPING": "CPP",
+            "MULTIPLIER": 1
+        },
+        {
+            "LANGUAGE": "GNU C++17",
+            "MAPPING": "CPP",
+            "MULTIPLIER": 1
+        },
+        {
+            "LANGUAGE": "GNU C++20 (64)",
+            "MAPPING": "CPP",
+            "MULTIPLIER": 1
+        },
+        {
+            "LANGUAGE": "MS C++ 2017",
+            "MAPPING": "CPP",
+            "MULTIPLIER": 1
+        },
+        {
+            "LANGUAGE": "GNU C++17 (64)",
+            "MAPPING": "CPP",
+            "MULTIPLIER": 1
+        },
+        {
+            "LANGUAGE": "Java 21",
+            "MAPPING": "JAVA",
+            "MULTIPLIER": 2
+        },
+        {
+            "LANGUAGE": "Java 8",
+            "MAPPING": "JAVA",
+            "MULTIPLIER": 2
+        },
+        {
+            "LANGUAGE": "Python 3",
+            "MAPPING": "PYTHON",
+            "MULTIPLIER": 5
+        },
+        {
+            "LANGUAGE": "PyPy 3",
+            "MAPPING": "PYTHON",
+            "MULTIPLIER": 5
+        }
+    ]
+}
