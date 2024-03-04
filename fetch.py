@@ -61,6 +61,10 @@ def fetch_submission(submission: dict) -> dict:
 
     # Language
     language = submission["programmingLanguage"]
+    languages_allowed = Constants.setup["ALLOWED_LANGUAGES"]
+    for lang_allowed in languages_allowed:
+        if lang_allowed["LANGUAGE"] == language:
+            language = lang_allowed
 
     # Source
     source = soup.find(id="program-source-text").get_text(strip=True)
@@ -87,6 +91,11 @@ def fetch_reference_submission(url: str) -> dict:
     logging.info(f"Currently Fetching {url} ...")
 
     resp = requests.get(url)
+    
+    if resp.status_code != 200:
+        logging.error(f'Cannot fetch submission from {url}')
+        exit(0)
+
     soup = bs4.BeautifulSoup(resp.text, "html.parser")
 
     # Fetch attributes one by one:

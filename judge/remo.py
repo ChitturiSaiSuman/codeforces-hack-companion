@@ -28,15 +28,9 @@ class Remo:
     def __init__(self, args: collections.defaultdict):
         Remo.__load()
 
-        print(args['lang'])
-
         args['lang'] = args['lang']['MAPPING']
-
         self.lang = args['lang']
         self.args = args
-        
-        # print(Remo.__executors)
-        # print(self.lang)
 
         try:
             self.executor = Remo.__executors[self.lang]()
