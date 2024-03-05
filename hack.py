@@ -1,6 +1,7 @@
 import io
 import json
 import logging
+import traceback
 
 import fetch
 from entities import *
@@ -22,7 +23,7 @@ class Hacker:
 
     def try_hack(self, problem: Problem, submission: Submission):
         logging.info(f"Trying to hack submission {submission.submission_id} ...")
-        
+
         timeout = self.metadata["timeout"]
         stressor = stress.Stressor(problem, submission, timeout)
         stressor.prepare()
@@ -31,12 +32,16 @@ class Hacker:
 
     def run(self):
         for submission in self.hackable_submissions:
-            submission = Submission(fetch.fetch_submission(submission))
             try:
-                problem = self.problem_mapper[submission.problem]
+                submission = Submission(fetch.fetch_submission(submission))
+                try:
+                    problem = self.problem_mapper[submission.problem]
+                except:
+                    continue
+                language = UTIL.get_langauge(submission.language)
+                submission.set_limits(problem.time_limit, problem.memory_limit)
+                submission.prepare()
+                self.try_hack(problem, submission)
             except:
-                continue
-            language = UTIL.get_langauge(submission.language)
-            submission.set_limits(problem.time_limit, problem.memory_limit)
-            submission.prepare()
-            self.try_hack(problem, submission)
+                logging.error(f"Exception when trying to hack {submission.id}")
+                logging.error(traceback.format_exc())

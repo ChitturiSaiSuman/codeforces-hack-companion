@@ -32,6 +32,13 @@ class Stressor:
             else:
                 expected_output = expected_outcome["stdout"]
                 defender_output = defender_outcome["stdout"]
+                # with open('output.txt', 'a') as file:
+                #     file.write('*' * 128 + '\n')
+                #     file.write(expected_output + '\n')
+                #     file.write('#' * 128 + '\n')
+                #     file.write(defender_output + '\n')
+                #     file.write('*' * 128 + '\n')
+
                 result = self.generator.validate(expected_output, defender_output)
 
                 if not result:
