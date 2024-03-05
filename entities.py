@@ -29,9 +29,11 @@ class Problem:
             "source": self.reference_submission.source,
             "time_limit": int(self.time_limit),
             "memory_limit": int(self.memory_limit) * 1024,  # Convert to KB
-            "source_file_name": self.reference_submission.submission_id,
+            "source_file_name": f"{self.reference_submission.submission_id}{self.reference_submission.language['EXTENSION']}",
             "path": "/tmp/",
+            "executable": f"{self.reference_submission.submission_id}_exe"
         }
+        # print(args)
         self.executor = Remo(args)
 
         # Instantiate Generator
@@ -42,6 +44,7 @@ class Submission:
     def __init__(self, args: dict):
         for key, value in args.items():
             setattr(self, key, value)
+        # print(args)
         # self.submission_id = args["submission_id"]
         # self.problem = args["problem"]
         # self.contest_id = args["contest_id"]
@@ -62,8 +65,10 @@ class Submission:
             "lang": self.language,
             "source": self.source,
             "time_limit": self.time_limit,
-            "memory_limit": self.memory_limit,
-            "source_file_name": self.submission_id,
-            "path": "/tmp/"
+            "memory_limit": int(self.memory_limit) * 1024,
+            "source_file_name": f"{self.submission_id}{self.language['EXTENSION']}",
+            "path": f"/tmp/",
+            "executable": f"{self.submission_id}_exe"
         }
+        # print(args)
         self.executor = Remo(args)

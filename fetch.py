@@ -3,6 +3,7 @@ import logging
 import time
 
 import bs4
+import re
 import requests
 
 import UTIL
@@ -33,7 +34,7 @@ def fetch_all_hackable_submissions_using_api(contest_id: str) -> list:
 
     hackable_submissions = filter(
         lambda submission: submission["programmingLanguage"] in lang_symbols,
-        all_submissions,
+        hackable_submissions,
     )
 
     metadata = UTIL.get_metadata()
@@ -44,8 +45,11 @@ def fetch_all_hackable_submissions_using_api(contest_id: str) -> list:
         hackable_submissions
     )
 
+    hackable_submissions = list(hackable_submissions)
+    # print(hackable_submissions[0])
+
     hackable_submissions = filter(
-        lambda submission: submission['verdict'] == 'OK',
+        lambda submission: 'verdict' in submission and submission['verdict'] == 'OK',
         hackable_submissions
     )
 
@@ -84,14 +88,12 @@ def fetch_submission(submission: dict) -> dict:
     owner = submission["author"]["members"][0]["handle"]
 
     # Language
-    language = submission["programmingLanguage"]
-    languages_allowed = Constants.setup["ALLOWED_LANGUAGES"]
-    for lang_allowed in languages_allowed:
-        if lang_allowed["LANGUAGE"] == language:
-            language = lang_allowed
+    language = UTIL.get_langauge(submission["programmingLanguage"])
 
     # Source
     source = soup.find(id="program-source-text").get_text(strip=True)
+    if language['EXTENSION'] == '.java':
+        source = re.sub(r'\bpublic\s+class\b', 'class', source)
 
     # Verdict
     verdict = submission["verdict"]
@@ -143,7 +145,8 @@ def fetch_reference_submission(url: str) -> dict:
             language = lang_allowed
 
     if language == None:
-        return {}
+        logging.error(f"Unable to identify the Programming Language in the submission {url}")
+        exit(0)
 
     # Source
     source = soup.find(id="program-source-text").get_text(strip=True)

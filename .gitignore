@@ -2,3 +2,4 @@
 api.json
 **/__pycache__
 2024*.log
+*_hack.log

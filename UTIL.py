@@ -1,4 +1,5 @@
 import json
+from config import Constants
 
 from entities import *
 
@@ -15,3 +16,12 @@ def prepare(metadata: dict) -> list:
         problem.prepare()
 
     return problems
+
+
+def get_langauge(lang: str) -> dict:
+    allowed_languages = Constants.setup['ALLOWED_LANGUAGES']
+    for language in allowed_languages:
+        if language['LANGUAGE'] == lang:
+            return language
+        
+    return {}

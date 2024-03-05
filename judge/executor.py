@@ -71,6 +71,10 @@ class Executor:
 
             shell_cmds = ['perl', timeout_perl, '-t', time_limit, '-m', memory_limit] + shell_cmds
 
+            # print("Commands:", shell_cmds)
+            # print("Path:",task.path)
+            # print(stdin)
+
             process = subprocess.run(shell_cmds, capture_output=True, check=True, cwd=task.path, input=stdin, text=True)
             
             response['status'] = 'success'
@@ -82,6 +86,7 @@ class Executor:
             response['message'] = traceback.format_exc()
             response['stdout'] = e.stdout
             response['stderr'] = e.stderr
+            # print(e.stdout, e.stderr)
 
         except Exception as e:
             response['status'] = 'error'
@@ -103,7 +108,7 @@ class Executor:
 
         def prepare(self, args: collections.defaultdict) -> collections.defaultdict:
             Executor.set_attributes(self, args)
-            self.executable = os.path.join(self.path, 'exe')
+            self.executable = os.path.join(self.path, self.executable)
             shell_cmds = ['gcc', '-xc', '-', '-o', self.executable, '-lm']
             return Executor.prep(self, shell_cmds)
 
@@ -130,7 +135,7 @@ class Executor:
 
         def prepare(self, args: collections.defaultdict) -> collections.defaultdict:
             Executor.set_attributes(self, args)
-            self.executable = os.path.join(self.path, 'exe')
+            self.executable = os.path.join(self.path, self.executable)
             shell_cmds = ['g++', '-std=c++17', '-Wshadow', '-Wall', '-o', self.executable, '-O2', '-Wno-unused-result', '-xc++', '-']
             return Executor.prep(self, shell_cmds)
 
