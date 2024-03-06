@@ -48,13 +48,13 @@ class AlphaGenerator(Generator):
         """
         # ################################################################
 
-        T = random.randint(1, 500)
+        T = random.randint(1000, 5000)
         self.print(T)
 
         for t in range(T):
-            N = random.randint(4, 100)
+            N = random.randint(2, 20)
             self.print(N)
-            arr = [random.randint(-10**6, 10**6) for i in range(N)]
+            arr = [random.randint(0, N - 1) for i in range(N)]
             self.print(*arr)
 
 
@@ -78,12 +78,55 @@ class AlphaGenerator(Generator):
         stdout = self.stdout
         stdexpout = self.stdexpout
 
-        return stdout == stdexpout
+        # return stdout == stdexpout
 
         # Comment above and Write your custom judge here
         # Example:
 
-        # T = int(read(stdin)) # Number of test cases
+        def find_mex(arr: list) -> int:
+            arr = set(arr)
+            i = 0
+            while i in arr:
+                i += 1
+            return i
+
+        T = int(read(stdin)) # Number of test cases
+        for t in range(T):
+            N = int(read(stdin))
+            arr = list(map(int, read(stdin).split()))
+            possible = int(read(stdexpout))
+            outcome = int(read(stdout))
+            if possible == -1:
+                if outcome != -1:
+                    return False
+            else:
+                if outcome == 1:
+                    return False
+                
+                for i in range(possible):
+                    pairs = read(stdexpout)
+                
+                pairs = []
+                for i in range(outcome):
+                    start, end = map(int, read(stdout).split())
+                    pairs.append((start, end))
+                
+                for i in range(outcome - 1):
+                    if pairs[i + 1][0] != pairs[i][1] + 1:
+                        return False
+                    
+                if pairs[0][0] != 1 or pairs[-1][1] != N:
+                    return False
+                
+                mexes = set()
+                for pair in pairs:
+                    mexes.add(find_mex(arr[pair[0] - 1:pair[1]]))
+
+                if len(mexes) > 1:
+                    return False
+                
+        return True
+                    
 
 
 class BetaGenerator(Generator):

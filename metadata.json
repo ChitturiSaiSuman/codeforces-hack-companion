@@ -1,14 +1,14 @@
 {
-    "contest": "1934",
-    "timeout": 30,
+    "contest": "1935",
+    "timeout": 60,
     "problems": [
         {
-            "code": "A",
-            "name": "Too Min Too Max",
+            "code": "B",
+            "name": "Informatics in MAC",
             "time_limit": "1",
             "memory_limit": "256",
             "generator": "AlphaGenerator",
-            "reference_submission": "https://codeforces.com/contest/1934/submission/249099906"
+            "reference_submission": "https://codeforces.com/contest/1935/submission/249746384"
         }
     ]
 }
