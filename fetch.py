@@ -37,6 +37,11 @@ def fetch_all_hackable_submissions_using_api(contest_id: str) -> list:
         hackable_submissions,
     )
 
+    hackable_submissions = filter(
+        lambda submission: 'verdict' in submission and submission['verdict'] == 'OK',
+        hackable_submissions
+    )
+
     metadata = UTIL.get_metadata()
     allowed_problems = [problem['code'] for problem in metadata['problems']]
 
@@ -46,14 +51,7 @@ def fetch_all_hackable_submissions_using_api(contest_id: str) -> list:
     )
 
     hackable_submissions = list(hackable_submissions)
-    # print(hackable_submissions[0])
-
-    hackable_submissions = filter(
-        lambda submission: 'verdict' in submission and submission['verdict'] == 'OK',
-        hackable_submissions
-    )
-
-    hackable_submissions = list(hackable_submissions)
+    hackable_submissions.sort(key=lambda submission: allowed_problems.index(submission['problem']['index']))
 
     response_file = f'{contest_id}_api_resp.json'
     with open(response_file, 'w') as file:

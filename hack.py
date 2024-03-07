@@ -38,7 +38,6 @@ class Hacker:
                     problem = self.problem_mapper[submission.problem]
                 except:
                     continue
-                language = UTIL.get_langauge(submission.language)
                 submission.set_limits(problem.time_limit, problem.memory_limit)
                 submission.prepare()
                 self.try_hack(problem, submission)
