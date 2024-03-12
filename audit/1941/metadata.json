@@ -1,0 +1,14 @@
+{
+    "contest": "1941",
+    "timeout": 30,
+    "problems": [
+        {
+            "code": "F",
+            "name": "Rudolf and Imbalance",
+            "time_limit": "3",
+            "memory_limit": "256",
+            "generator": "AlphaGenerator",
+            "reference_submission": "https://codeforces.com/contest/1941/submission/250648064"
+        }
+    ]
+}
