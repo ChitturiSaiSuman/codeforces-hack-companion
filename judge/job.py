@@ -52,23 +52,6 @@ class Job:
         """
         pass
 
-    def start(self, args: collections.defaultdict) -> collections.defaultdict:
-        """
-        Method that calls prepare and run internally
-
-        Collects the returned values from both routines,
-        consolidates and sends them to the caller
-        """
-        response = collections.defaultdict()
-
-        try:
-            response['Job.prepare()'] = self.prepare(args)
-            response['Job.run()'] = self.run()
-        except Exception as e:
-            response['error'] = traceback.format_exc()
-
-        return response
-
     @classmethod
     @abstractmethod
     def get_status(cls) -> list:

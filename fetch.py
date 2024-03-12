@@ -1,9 +1,10 @@
 import json
 import logging
+import os
+import re
 import time
 
 import bs4
-import re
 import requests
 
 import UTIL
@@ -14,6 +15,11 @@ minimum_gap = 5
 
 
 def fetch_all_hackable_submissions_using_api(contest_id: str) -> list:
+
+    response_file = f"{contest_id}_api_resp.json"
+    if os.path.exists(response_file):
+        return json.loads(open(response_file, "r").read())
+
     url = f"https://codeforces.com/api/contest.status?contestId={contest_id}"
 
     resp_from_api = requests.get(url)
@@ -38,23 +44,24 @@ def fetch_all_hackable_submissions_using_api(contest_id: str) -> list:
     )
 
     hackable_submissions = filter(
-        lambda submission: 'verdict' in submission and submission['verdict'] == 'OK',
-        hackable_submissions
+        lambda submission: "verdict" in submission and submission["verdict"] == "OK",
+        hackable_submissions,
     )
 
     metadata = UTIL.get_metadata()
-    allowed_problems = [problem['code'] for problem in metadata['problems']]
+    allowed_problems = [problem["code"] for problem in metadata["problems"]]
 
     hackable_submissions = filter(
         lambda submission: submission["problem"]["index"] in allowed_problems,
-        hackable_submissions
+        hackable_submissions,
     )
 
     hackable_submissions = list(hackable_submissions)
-    hackable_submissions.sort(key=lambda submission: allowed_problems.index(submission['problem']['index']))
+    hackable_submissions.sort(
+        key=lambda submission: allowed_problems.index(submission["problem"]["index"])
+    )
 
-    response_file = f'{contest_id}_api_resp.json'
-    with open(response_file, 'w') as file:
+    with open(response_file, "w") as file:
         json.dump(hackable_submissions, file, indent=2)
 
     return hackable_submissions
@@ -63,7 +70,7 @@ def fetch_all_hackable_submissions_using_api(contest_id: str) -> list:
 def fetch_submission(submission: dict) -> dict:
     global last_time, minimum_gap
     while time.time() - last_time < minimum_gap:
-        logging.info('Sleeping for 1 second')
+        logging.info("Sleeping for 1 second")
         time.sleep(1)
 
     last_time = time.time()
@@ -90,8 +97,8 @@ def fetch_submission(submission: dict) -> dict:
 
     # Source
     source = soup.find(id="program-source-text").get_text(strip=True)
-    if language['EXTENSION'] == '.java':
-        source = re.sub(r'\bpublic\s+class\b', 'class', source)
+    if language["EXTENSION"] == ".java":
+        source = re.sub(r"\bpublic\s+class\b", "class", source)
 
     # Verdict
     verdict = submission["verdict"]
@@ -115,9 +122,9 @@ def fetch_reference_submission(url: str) -> dict:
     logging.info(f"Currently Fetching {url} ...")
 
     resp = requests.get(url)
-    
+
     if resp.status_code != 200:
-        logging.error(f'Cannot fetch submission from {url}')
+        logging.error(f"Cannot fetch submission from {url}")
         exit(0)
 
     soup = bs4.BeautifulSoup(resp.text, "html.parser")
@@ -143,7 +150,9 @@ def fetch_reference_submission(url: str) -> dict:
             language = lang_allowed
 
     if language == None:
-        logging.error(f"Unable to identify the Programming Language in the submission {url}")
+        logging.error(
+            f"Unable to identify the Programming Language in the submission {url}"
+        )
         exit(0)
 
     # Source
@@ -154,7 +163,7 @@ def fetch_reference_submission(url: str) -> dict:
         "span", class_=lambda t: "verdict" in t if t else False
     ).get_text()
 
-    return {
+    obj = {
         "submission_id": submission_id,
         "problem": problem,
         "contest_id": contest_id,
@@ -163,3 +172,5 @@ def fetch_reference_submission(url: str) -> dict:
         "source": source,
         "verdict": verdict,
     }
+
+    return obj
