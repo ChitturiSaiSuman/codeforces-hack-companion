@@ -17,9 +17,22 @@ class Hacker:
         self.hack_log_file = f"{metadata['contest']}_hack.log"
         self.problem_mapper = {problem.code: problem for problem in problems}
 
-    def publish(self, verdict: dict):
+    def publish_successful_hack(self, verdict: dict):
         with open(self.hack_log_file, "a") as file:
-            json.dump(verdict, file, indent=2)
+            for key, value in verdict.items():
+                if key != 'stdin':
+                    file.write(f'{key}: {value}\n')
+                else:
+                    file.write(f'{key}:\n{value}\n')
+
+            file.write('*' * 128 + '\n')
+
+    def publish_failed_hack(self, verdict: dict):
+        with open(self.hack_log_file, "a") as file:
+            for key, value in verdict.items():
+                file.write(f'{key}: {value}\n')
+                
+            file.write('*' * 128 + '\n')
 
     def try_hack(self, problem: Problem, submission: Submission):
         logging.info(f"Trying to hack submission {submission.submission_id} ...")
@@ -28,7 +41,10 @@ class Hacker:
         stressor = stress.Stressor(problem, submission, timeout)
         stressor.prepare()
         verdict = stressor.test()
-        self.publish(verdict)
+        if verdict['status'] == 'hacked':
+            self.publish_successful_hack(verdict)
+        else:
+            self.publish_failed_hack(verdict)
 
     def run(self):
         for submission in self.hackable_submissions:

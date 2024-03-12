@@ -44,11 +44,13 @@ class Stressor:
                 if not result:
                     return {
                         "status": "hacked",
-                        "seed": seed,
-                        "generator": self.generator.__class__.__name__,
                         "submission_id": self.submission.submission_id,
-                        "problem": self.submission.problem
+                        "problem": self.submission.problem,
+                        "generator": self.generator.__class__.__name__,
+                        "seed": seed,
+                        "stdin": stdin
                     }
+                
             seed += 1
 
         return {
