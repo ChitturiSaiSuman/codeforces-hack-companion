@@ -52,26 +52,8 @@ class AlphaGenerator(Generator):
         self.print(T)
 
         for test in range(T):
-            N = random.randint(1, 10**2)
-            M = random.randint(1, 10**2)
-            K = random.randint(1, 10**2)
-            self.print(N, M, K)
-
-            arr = []
-            s = set()
-            while len(arr) < N:
-                ele = random.randint(1, 2 * 10**9)
-                while ele in s:
-                    ele = random.randint(1, 2 * 10**9)
-                arr.append(ele)
-                s.add(ele)
-
-            B = [random.randint(1, 10**9) for i in range(M)]
-            C = [random.randint(1, 10**9) for i in range(K)]
-
-            self.print(*arr)
-            self.print(*B)
-            self.print(*C)
+            n = random.randint(1, 50)
+            self.print(n)
 
 
         # ################################################################
@@ -94,12 +76,28 @@ class AlphaGenerator(Generator):
         stdout = self.stdout
         stdexpout = self.stdexpout
 
-        return stdout == stdexpout
+        T = int(read(stdin))
+        for test in range(T):
+            N = int(read(stdin))
+            poss = read(stdout)
+            act_poss = read(stdexpout)
+            if poss != act_poss:
+                return False
+            
+            s = read(stdout)
+            read(stdexpout)
+            count = 0
+            if len(s) >= 2:
+                count += 1 if s[0] == s[1] else 0
+                count += 1 if s[-1] == s[-2] else 0
 
-        # Comment above and Write your custom judge here
-        # Example:
+            for i in range(1, len(s) - 1):
+                count += 1 if (s[i - 1] == s[i] and s[i] != s[i + 1]) or (s[i - 1] != s[i] and s[i] == s[i + 1]) else 0
 
-        T = read()
+            if count != N:
+                return False
+            
+        return True
                     
 
 
@@ -115,8 +113,10 @@ class BetaGenerator(Generator):
         self.print(T)
 
         for t in range(T):
-            N = random.randint(1, 10**9)
+            N = random.randint(2, 50)
             self.print(N)
+            arr = [random.randint(0, 99) for i in range(N)]
+            self.print(*arr)
 
         # ################################################################
         """
@@ -138,7 +138,7 @@ class BetaGenerator(Generator):
         stdout = self.stdout
         stdexpout = self.stdexpout
 
-        return stdout == stdexpout
+        return len(stdout) == len(stdout) and all([stdout[i].lower() == stdexpout[i].lower() for i in range(len(stdout))])
 
         # Comment above and Write your custom judge here
         # Example:
@@ -197,12 +197,17 @@ class DeltaGenerator(Generator):
         """
         # ################################################################
 
-        T = random.randint(1, 1000)
+        T = random.randint(1, 100)
         self.print(T)
 
+        alpha = [chr(i) for i in range(97, 123)] + ['?']
+
         for t in range(T):
-            N = random.randint(1, 10**9)
-            self.print(N)
+            N = random.randint(1, 500)
+            s = ''.join(
+                [alpha[random.randint(0, 26)] for i in range(N)]
+            )
+            self.print(s)
 
         # ################################################################
         """

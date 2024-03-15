@@ -1,14 +1,30 @@
 {
-    "contest": "1941",
+    "contest": "1948",
     "timeout": 30,
     "problems": [
         {
-            "code": "F",
-            "name": "Rudolf and Imbalance",
-            "time_limit": "3",
+            "code": "D",
+            "name": "Tandem Repeats?",
+            "time_limit": "2",
+            "memory_limit": "256",
+            "generator": "DeltaGenerator",
+            "reference_submission": "https://codeforces.com/contest/1948/submission/251428147"
+        },
+        {
+            "code": "B",
+            "name": "Array Fix",
+            "time_limit": "2",
+            "memory_limit": "256",
+            "generator": "BetaGenerator",
+            "reference_submission": "https://codeforces.com/contest/1948/submission/251421706"
+        },
+        {
+            "code": "A",
+            "name": "Special Characters",
+            "time_limit": "2",
             "memory_limit": "256",
             "generator": "AlphaGenerator",
-            "reference_submission": "https://codeforces.com/contest/1941/submission/250648064"
+            "reference_submission": "https://codeforces.com/contest/1948/submission/251419288"
         }
     ]
 }
