@@ -58,5 +58,5 @@ class Hacker:
                 submission.prepare()
                 self.try_hack(problem, submission)
             except:
-                logging.error(f"Exception when trying to hack {submission.id}")
+                logging.error(f"Exception when trying to hack {submission.submission_id}")
                 logging.error(traceback.format_exc())
