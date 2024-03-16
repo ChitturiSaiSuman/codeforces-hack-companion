@@ -15,12 +15,13 @@ class Hacker:
         self.problems = problems
         self.hackable_submissions = hackable_submissions
         self.hack_log_file = f"{metadata['contest']}_hack.log"
+        self.checked_file = f"{metadata['contest']}_checked.log"
         self.problem_mapper = {problem.code: problem for problem in problems}
 
     def publish_successful_hack(self, verdict: dict):
         with open(self.hack_log_file, "a") as file:
             for key, value in verdict.items():
-                if key != 'stdin':
+                if key not in ['stdin', 'expected_output', 'defender_output']:
                     file.write(f'{key}: {value}\n')
                 else:
                     file.write(f'{key}:\n{value}\n')
@@ -46,8 +47,22 @@ class Hacker:
         else:
             self.publish_failed_hack(verdict)
 
+        with open(self.checked_file, 'a') as file:
+            file.write(f'{submission.submission_id}\n')
+
     def run(self):
+        checked_submissions = set()
+        try:
+            with open(self.checked_file, 'r') as file:
+                lines = file.readlines()
+                lines = [line.strip() for line in lines]
+                checked_submissions = set(lines)
+        except:
+            logging.error(traceback.format_exc())
+
         for submission in self.hackable_submissions:
+            if submission['id'] in checked_submissions:
+                continue
             try:
                 submission = Submission(fetch.fetch_submission(submission))
                 try:
@@ -60,3 +75,6 @@ class Hacker:
             except:
                 logging.error(f"Exception when trying to hack {submission.submission_id}")
                 logging.error(traceback.format_exc())
+
+        for problem in self.problems:
+            problem.executor.purge()

@@ -54,8 +54,8 @@ class Submission:
         # self.verdict = args["verdict"]
             
     def set_limits(self, time_limit: int, memory_limit: int):
-        self.time_limit = time_limit
-        self.memory_limit = memory_limit
+        self.time_limit = int(time_limit) * self.language['MULTIPLIER']
+        self.memory_limit = int(memory_limit)
             
     def prepare(self):
         if hasattr(self, 'executor'):

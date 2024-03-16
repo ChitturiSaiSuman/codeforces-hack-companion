@@ -54,3 +54,6 @@ class Remo:
             response['message'] = traceback.format_exc()
             
         return response
+    
+    def purge(self):
+        self.executor.purge()

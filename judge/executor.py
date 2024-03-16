@@ -24,6 +24,11 @@ class Executor:
             
         if 'memory_limit' not in args:
             setattr(obj, 'memory_limit', 1024 * config.Constants.rse['memory_limit'][obj.lang])
+        
+        # logging.info(config.Constants.rse['time_limit'][obj.lang])
+        # logging.info(config.Constants.rse['memory_limit'][obj.lang])
+
+        # logging.info(f"Current Limits: {obj.time_limit}s and {obj.memory_limit} KB")
 
     @classmethod
     def prepare_files(cls, job: job.Job) -> tuple:
@@ -109,7 +114,7 @@ class Executor:
         def prepare(self, args: collections.defaultdict) -> collections.defaultdict:
             Executor.set_attributes(self, args)
             self.executable = os.path.join(self.path, self.executable)
-            shell_cmds = ['gcc', '-xc', '-', '-o', self.executable, '-lm']
+            shell_cmds = ['gcc', '-DONLINE_JUDGE', '-xc', '-', '-o', self.executable, '-lm']
             return Executor.prep(self, shell_cmds)
 
         def run(self, stdin: str) -> collections.defaultdict:
@@ -121,10 +126,11 @@ class Executor:
             # TODO: Implement the method
             return super().get_status()
 
-        @classmethod
-        def purge(cls) -> bool:
-            # TODO: Implement the method
-            return super().purge()
+        def purge(self) -> bool:
+            try:
+                os.remove(self.executable)
+            except:
+                logging.error(traceback.format_exc())
 
     class CPP(job.Job):
         auxiliary_data = collections.defaultdict()
@@ -136,7 +142,7 @@ class Executor:
         def prepare(self, args: collections.defaultdict) -> collections.defaultdict:
             Executor.set_attributes(self, args)
             self.executable = os.path.join(self.path, self.executable)
-            shell_cmds = ['g++', '-std=c++17', '-Wshadow', '-Wall', '-o', self.executable, '-O2', '-Wno-unused-result', '-xc++', '-']
+            shell_cmds = ['g++', '-DONLINE_JUDGE', '-std=c++17', '-Wshadow', '-Wall', '-o', self.executable, '-O2', '-Wno-unused-result', '-xc++', '-']
             return Executor.prep(self, shell_cmds)
 
         def run(self, stdin: str) -> collections.defaultdict:
@@ -148,10 +154,11 @@ class Executor:
             # TODO: Implement the method
             return super().get_status()
 
-        @classmethod
-        def purge(cls) -> bool:
-            # TODO: Implement the method
-            return super().purge()
+        def purge(self) -> bool:
+            try:
+                os.remove(self.executable)
+            except:
+                logging.error(traceback.format_exc())
 
     class JAVA(job.Job):
         auxiliary_data = collections.defaultdict()
@@ -168,6 +175,7 @@ class Executor:
             has_main_method = lambda byte_code: 'public static void main' in byte_code
 
             class_files = list(filter(is_class_file, self.target_directory.iterdir()))
+            self.class_files = class_files
             byte_codes = list(map(disassemble, class_files))
 
             main_method_classes = [class_file.stem for class_file, byte_code in zip(class_files, byte_codes) if has_main_method(byte_code)]
@@ -232,10 +240,14 @@ class Executor:
             # TODO: Implement the method
             return super().get_status()
 
-        @classmethod
-        def purge(cls) -> bool:
+        def purge(self) -> bool:
             # TODO: Implement the method
-            return super().purge()
+            try:
+                for class_file in self.class_files:
+                    os.remove(class_file)
+                os.remove(self.source_file_name)
+            except:
+                logging.error(traceback.format_exc())
 
     class PYTHON(job.Job):
         auxiliary_data = collections.defaultdict()
@@ -263,7 +275,5 @@ class Executor:
             # TODO: Implement the method
             return super().get_status()
 
-        @classmethod
-        def purge(cls) -> bool:
-            # TODO: Implement the method
-            return super().purge()
+        def purge(self) -> bool:
+            pass

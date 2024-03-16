@@ -32,27 +32,25 @@ class Stressor:
             else:
                 expected_output = expected_outcome["stdout"]
                 defender_output = defender_outcome["stdout"]
-                # with open('output.txt', 'a') as file:
-                #     file.write('*' * 128 + '\n')
-                #     file.write(expected_output + '\n')
-                #     file.write('#' * 128 + '\n')
-                #     file.write(defender_output + '\n')
-                #     file.write('*' * 128 + '\n')
 
                 result = self.generator.validate(expected_output, defender_output)
 
                 if not result:
+                    self.submission.executor.purge()
                     return {
                         "status": "hacked",
                         "submission_id": self.submission.submission_id,
                         "problem": self.submission.problem,
                         "generator": self.generator.__class__.__name__,
                         "seed": seed,
-                        "stdin": stdin
+                        "stdin": stdin,
+                        "expected_output": expected_output,
+                        "defender_output": defender_output
                     }
                 
             seed += 1
 
+        self.submission.executor.purge()
         return {
             "status": "failed hack attempt",
             "generator": self.generator.__class__.__name__,
