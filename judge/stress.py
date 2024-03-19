@@ -28,7 +28,7 @@ class Stressor:
             if "error" in [expected_outcome["status"], defender_outcome["status"]]:
                 logging.error(expected_outcome.get("message", None))
                 logging.error(defender_outcome.get("message", None))
-                return
+                return {'status': 'None'}
             else:
                 expected_output = expected_outcome["stdout"]
                 defender_output = defender_outcome["stdout"]

@@ -1,30 +1,46 @@
 {
-    "contest": "1948",
+    "contest": "1945",
     "timeout": 30,
     "problems": [
         {
+            "code": "F",
+            "name": "Kirill and Mushrooms",
+            "time_limit": "2",
+            "memory_limit": "256",
+            "generator": "ZetaGenerator",
+            "reference_submission": "https://codeforces.com/contest/1945/submission/252211445"
+        },
+        {
             "code": "D",
-            "name": "Tandem Repeats?",
+            "name": "Seraphim the Owl",
             "time_limit": "2",
             "memory_limit": "256",
             "generator": "DeltaGenerator",
-            "reference_submission": "https://codeforces.com/contest/1948/submission/251428147"
+            "reference_submission": "https://codeforces.com/contest/1945/submission/252201816"
+        },
+        {
+            "code": "C",
+            "name": "Left and Right Houses",
+            "time_limit": "2",
+            "memory_limit": "256",
+            "generator": "GammaGenerator",
+            "reference_submission": "https://codeforces.com/contest/1945/submission/252198928"
         },
         {
             "code": "B",
-            "name": "Array Fix",
-            "time_limit": "2",
+            "name": "Fireworks",
+            "time_limit": "1",
             "memory_limit": "256",
             "generator": "BetaGenerator",
-            "reference_submission": "https://codeforces.com/contest/1948/submission/251421706"
+            "reference_submission": "https://codeforces.com/contest/1945/submission/252194824"
         },
         {
             "code": "A",
-            "name": "Special Characters",
-            "time_limit": "2",
+            "name": "Setting up Camp",
+            "time_limit": "1",
             "memory_limit": "256",
             "generator": "AlphaGenerator",
-            "reference_submission": "https://codeforces.com/contest/1948/submission/251419288"
+            "reference_submission": "https://codeforces.com/contest/1945/submission/252193272"
         }
     ]
 }

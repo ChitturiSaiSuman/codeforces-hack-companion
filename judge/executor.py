@@ -74,17 +74,23 @@ class Executor:
             memory_limit = str(task.memory_limit)
             timeout_perl = os.path.join(os.path.dirname(__file__), 'timeout.pl')
 
-            shell_cmds = ['perl', timeout_perl, '-t', time_limit, '-m', memory_limit] + shell_cmds
+            # shell_cmds = ['perl', timeout_perl, '-t', time_limit, '-m', memory_limit] + shell_cmds
 
             # print("Commands:", shell_cmds)
             # print("Path:",task.path)
             # print(stdin)
-
-            process = subprocess.run(shell_cmds, capture_output=True, check=True, cwd=task.path, input=stdin, text=True)
+            
+            process = subprocess.run(shell_cmds, capture_output=True, check=True, cwd=task.path, input=stdin, text=True, timeout=int(time_limit))
             
             response['status'] = 'success'
             response['stdout'] = process.stdout
             response['stderr'] = process.stderr
+
+        except subprocess.TimeoutExpired as e:
+            response['status'] = 'error'
+            response['message'] = traceback.format_exc()
+            response['stdout'] = e.stdout
+            response['stderr'] = e.stderr
 
         except subprocess.CalledProcessError as e:
             response['status'] = 'error'
